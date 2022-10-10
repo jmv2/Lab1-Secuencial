@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -g -Wall
 OBJFILES = main.o coordinador.o metricas.o
-TARGET = program
+TARGET = lab1
 
 all: $(TARGET)
 	

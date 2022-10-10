@@ -1,6 +1,6 @@
 # ifndef METRICAS
 # define METRICAS
 
-void helloWorld();
+int mode(int a[],int n);
 
 # endif
