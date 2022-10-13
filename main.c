@@ -15,17 +15,13 @@ void print_usage(){
     exit(2);
 }
 
-int cmpfunc (const void * a, const void * b) {
-   return ( *(int*)a - *(int*)b );
-}
-
 int main(int argc, char **argv)
 {
     
     int option;
     int dflag = 0;
     int lines;
-    char * inputfile;
+    char * inputdatafile;
 
     while((option = getopt(argc, argv, "i:c:d"))!= -1){
         switch (option) {
@@ -34,7 +30,7 @@ int main(int argc, char **argv)
                 break;
             
             case 'i':
-                inputfile = optarg;
+                inputdatafile = optarg;
                 break;
 
             case 'c':
@@ -46,26 +42,8 @@ int main(int argc, char **argv)
                 exit(EXIT_FAILURE);
         }
     }
-    // printf("lineas: %d\n", lines);
-    // loadFile(inputfile, lines);
 
-    int vector[10] = {1,3,45,3,6576,2,3,8,56,0};
-    int i ;
-    for ( i = 0; i < 10; i++)
-    {
-        printf("%d\n",vector[i]);
-    }
-    
-    qsort(vector, 10, sizeof(int), cmpfunc);
-
-    printf("*******\n");
-
-    for ( i = 0; i < 10; i++)
-    {
-        printf("%d\n",vector[i]);
-    }
-
-    printf("ahora, la moda: %d", mode(vector, 10));
+    metricas(inputdatafile, lines);
 
     return 0;
 }

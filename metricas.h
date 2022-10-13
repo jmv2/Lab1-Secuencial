@@ -1,6 +1,7 @@
 # ifndef METRICAS
 # define METRICAS
 
-int mode(int a[],int n);
+void loadFile(char* filename, int lines );
+void metricas(char * inputdatafile,  int len);
 
 # endif
