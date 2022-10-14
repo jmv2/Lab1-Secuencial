@@ -157,8 +157,8 @@ void write_rp_files(char * filename, char * data){
 void metricas(char * inputdatafile,  int len){
     
     int iter;
-    char buffer[15];
-    float aux;
+    char buffer[20];
+    float partial_result;
 
     float * data_arrays[num_arrays] = {
         
@@ -174,31 +174,41 @@ void metricas(char * inputdatafile,  int len){
     
     loadFile(inputdatafile, len);
 
-    //printf("Medias:");
+    // MEDIA
     for ( iter = 0; iter < num_arrays; iter++){
-        aux = mean(data_arrays[iter], len);
-        sprintf(buffer, "%.1f\n", aux);
+        partial_result = mean(data_arrays[iter], len);
+        sprintf(buffer, "%.1f\n", partial_result);
         write_rp_files("rp_mean.txt", buffer);
     }
-    printf("\nModas:");
+
+    // MODA
     for ( iter = 0; iter < num_arrays; iter++){
-        printf(" %.1f", mode(data_arrays[iter], len));
-    }
-    printf("\nDesviaciones:");
-    for ( iter = 0; iter < num_arrays; iter++){
-        printf(" %.1f", standard_deviation(data_arrays[iter], len));
+        partial_result = mode(data_arrays[iter], len);
+        sprintf(buffer, "%.1f\n", partial_result);
+        write_rp_files("rp_mode.txt", buffer);
     }
 
-    printf("\nvalores maximos:");
+
+    // DESVIACION ESTANDAR
+    for ( iter = 0; iter < num_arrays; iter++){
+        partial_result = standard_deviation(data_arrays[iter], len);
+        sprintf(buffer, "%.1f\n", partial_result);
+        write_rp_files("rp_sd.txt", buffer);
+    }
+    
+    // MAXIMOS
     for ( iter = 0; iter < num_arrays; iter++){
         order_array(data_arrays[iter], len);
-        printf(" %.1f", data_arrays[iter][len]);
+        partial_result = data_arrays[iter][len];
+        sprintf(buffer, "%.1f\n", partial_result);
+        write_rp_files("rp_max.txt", buffer);
     }
 
-    printf("\nvalores minimos:");
+    // MINIMOS
     for ( iter = 0; iter < num_arrays; iter++){
-        printf(" %.1f", data_arrays[iter][0]);
+        partial_result = data_arrays[iter][0];
+        sprintf(buffer, "%.1f\n", partial_result);
+        write_rp_files("rp_min.txt", buffer);
     }
-    printf("\n\n\n");
 
 }
