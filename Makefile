@@ -2,6 +2,7 @@ CC = gcc
 CFLAGS = -g -Wall
 OBJFILES = main.o coordinador.o metricas.o
 TARGET = lab1
+OUTPUTFILES = rp_*.txt rc_*.txt
 
 all: $(TARGET)
 	
@@ -15,4 +16,4 @@ coordinador: coordinador.c coordinador.h
 metricas: metricas.c metricas.h
 
 clean:
-	rm -f $(OBJFILES) $(TARGET)
+	rm -f $(OBJFILES) $(TARGET) $(OUTPUTFILES)

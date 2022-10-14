@@ -147,9 +147,9 @@ float standard_deviation(float data[], int len) {
 
 void write_rp_files(char * filename, char * data){
     
-    FILE * file = fopen(filename, "w");
+    FILE * file = fopen(filename, "a");
 
-    
+    fputs(data, file);
 
     fclose(file);
 }
@@ -157,6 +157,8 @@ void write_rp_files(char * filename, char * data){
 void metricas(char * inputdatafile,  int len){
     
     int iter;
+    char buffer[15];
+    float aux;
 
     float * data_arrays[num_arrays] = {
         
@@ -172,9 +174,11 @@ void metricas(char * inputdatafile,  int len){
     
     loadFile(inputdatafile, len);
 
-    printf("Medias:");
+    //printf("Medias:");
     for ( iter = 0; iter < num_arrays; iter++){
-        printf(" %.1f", mean(data_arrays[iter], len));
+        aux = mean(data_arrays[iter], len);
+        sprintf(buffer, "%.1f\n", aux);
+        write_rp_files("rp_mean.txt", buffer);
     }
     printf("\nModas:");
     for ( iter = 0; iter < num_arrays; iter++){
@@ -195,5 +199,6 @@ void metricas(char * inputdatafile,  int len){
     for ( iter = 0; iter < num_arrays; iter++){
         printf(" %.1f", data_arrays[iter][0]);
     }
+    printf("\n\n\n");
 
 }
