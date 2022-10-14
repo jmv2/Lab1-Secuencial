@@ -3,6 +3,8 @@
 # include <stdlib.h>
 # include <math.h>
 
+const int num_arrays = 8;
+
 float * array_c1;
 float * array_c2;
 float * array_c3;
@@ -23,7 +25,7 @@ void loadFile(char* inputdatafile, int lines){
     FILE * file = fopen(inputdatafile, "r");
     char dstLine[100];
     int len = 100;
-    int contador = 0;
+    int counter = 0;
     char* delim = ",";
     float c1, c2, c3, c4, c5, c6, c7, c8;
     char * token;
@@ -32,8 +34,8 @@ void loadFile(char* inputdatafile, int lines){
     if (!file){
         printf("error al abrir archivo.\n");
     }else{
-        while (!feof(file) && contador <= lines){
-            contador++;
+        while (!feof(file) && counter <= lines){
+            counter++;
 
             fgets(dstLine, len, file);
             
@@ -41,49 +43,49 @@ void loadFile(char* inputdatafile, int lines){
             aux = (char*) malloc (strlen(token)*sizeof(char));
             strcpy(aux, token);
             c1 = atof(aux);
-            array_c1[contador] = c1;
+            array_c1[counter] = c1;
 
             token = strtok(NULL, delim);
             aux = (char*) malloc (strlen(token)*sizeof(char));
             strcpy(aux, token);
             c2 = atof(aux);
-            array_c2[contador] = c2;
+            array_c2[counter] = c2;
 
             token = strtok(NULL, delim);
             aux = (char*) malloc (strlen(token)*sizeof(char));
             strcpy(aux, token);
             c3 = atof(aux);
-            array_c3[contador] = c3;
+            array_c3[counter] = c3;
 
             token = strtok(NULL, delim);
             aux = (char*) malloc (strlen(token)*sizeof(char));
             strcpy(aux, token);
             c4 = atof(aux);
-            array_c4[contador] = c4;
+            array_c4[counter] = c4;
 
             token = strtok(NULL, delim);
             aux = (char*) malloc (strlen(token)*sizeof(char));
             strcpy(aux, token);
             c5 = atof(aux);
-            array_c5[contador] = c5;
+            array_c5[counter] = c5;
 
             token = strtok(NULL, delim);
             aux = (char*) malloc (strlen(token)*sizeof(char));
             strcpy(aux, token);
             c6 = atof(aux);
-            array_c6[contador] = c6;
+            array_c6[counter] = c6;
 
             token = strtok(NULL, delim);
             aux = (char*) malloc (strlen(token)*sizeof(char));
             strcpy(aux, token);
             c7 = atof(aux);
-            array_c7[contador] = c7;
+            array_c7[counter] = c7;
             
             token = strtok(NULL, delim);
             aux = (char*) malloc (strlen(token)*sizeof(char));
             strcpy(aux, token);
             c8 = atof(aux);
-            array_c8[contador] = c8;
+            array_c8[counter] = c8;
 
         }
     }    
@@ -143,30 +145,55 @@ float standard_deviation(float data[], int len) {
     return sqrt(SD / len);
 }
 
+void write_rp_files(char * filename, char * data){
+    
+    FILE * file = fopen(filename, "w");
+
+    
+
+    fclose(file);
+}
 
 void metricas(char * inputdatafile,  int len){
+    
+    int iter;
 
-    array_c1 = (float*)malloc(sizeof(float)*len);
-    array_c2 = (float*)malloc(sizeof(float)*len);
-    array_c3 = (float*)malloc(sizeof(float)*len);
-    array_c4 = (float*)malloc(sizeof(float)*len);
-    array_c5 = (float*)malloc(sizeof(float)*len);
-    array_c6 = (float*)malloc(sizeof(float)*len);
-    array_c7 = (float*)malloc(sizeof(float)*len);
-    array_c8 = (float*)malloc(sizeof(float)*len);
-
+    float * data_arrays[num_arrays] = {
+        
+        array_c1 = (float*)malloc(sizeof(float)*len),
+        array_c2 = (float*)malloc(sizeof(float)*len),
+        array_c3 = (float*)malloc(sizeof(float)*len),
+        array_c4 = (float*)malloc(sizeof(float)*len),
+        array_c5 = (float*)malloc(sizeof(float)*len),
+        array_c6 = (float*)malloc(sizeof(float)*len),
+        array_c7 = (float*)malloc(sizeof(float)*len),
+        array_c8 = (float*)malloc(sizeof(float)*len)
+    };
     
     loadFile(inputdatafile, len);
 
-    printf("moda columna 5: %.1f\n",mode(array_c5, len));
-    printf("moda columna 7: %.1f\n",mode(array_c7, len));
-    printf("Media columna 5: %.1f\n", mean(array_c5, len));
-    printf("Media columna 7: %.1f\n", mean(array_c7, len));
+    printf("Medias:");
+    for ( iter = 0; iter < num_arrays; iter++){
+        printf(" %.1f", mean(data_arrays[iter], len));
+    }
+    printf("\nModas:");
+    for ( iter = 0; iter < num_arrays; iter++){
+        printf(" %.1f", mode(data_arrays[iter], len));
+    }
+    printf("\nDesviaciones:");
+    for ( iter = 0; iter < num_arrays; iter++){
+        printf(" %.1f", standard_deviation(data_arrays[iter], len));
+    }
 
-    order_array(array_c7, len);
-    printf("valor min col 7: %.0f\n", array_c7[0]);
-    printf("valor max col 7: %.0f\n", array_c7[len]);
+    printf("\nvalores maximos:");
+    for ( iter = 0; iter < num_arrays; iter++){
+        order_array(data_arrays[iter], len);
+        printf(" %.1f", data_arrays[iter][len]);
+    }
 
-    printf("Desviacion estandar para col 7: %.1f\n", standard_deviation(array_c7,len));
-    
+    printf("\nvalores minimos:");
+    for ( iter = 0; iter < num_arrays; iter++){
+        printf(" %.1f", data_arrays[iter][0]);
+    }
+
 }
