@@ -145,7 +145,7 @@ float standard_deviation(float data[], int len) {
     return sqrt(SD / len);
 }
 
-void write_rp_files(char * filename, char * data){
+void write_file(char * filename, char * data){
     
     FILE * file = fopen(filename, "a");
 
@@ -178,14 +178,14 @@ void metricas(char * inputdatafile,  int len){
     for ( iter = 0; iter < num_arrays; iter++){
         partial_result = mean(data_arrays[iter], len);
         sprintf(buffer, "%.1f\n", partial_result);
-        write_rp_files("rp_mean.txt", buffer);
+        write_file("rp_files/rp_mean.txt", buffer);
     }
 
     // MODA
     for ( iter = 0; iter < num_arrays; iter++){
         partial_result = mode(data_arrays[iter], len);
         sprintf(buffer, "%.1f\n", partial_result);
-        write_rp_files("rp_mode.txt", buffer);
+        write_file("rp_files/rp_mode.txt", buffer);
     }
 
 
@@ -193,7 +193,7 @@ void metricas(char * inputdatafile,  int len){
     for ( iter = 0; iter < num_arrays; iter++){
         partial_result = standard_deviation(data_arrays[iter], len);
         sprintf(buffer, "%.1f\n", partial_result);
-        write_rp_files("rp_sd.txt", buffer);
+        write_file("rp_files/rp_sd.txt", buffer);
     }
     
     // MAXIMOS
@@ -201,14 +201,14 @@ void metricas(char * inputdatafile,  int len){
         order_array(data_arrays[iter], len);
         partial_result = data_arrays[iter][len];
         sprintf(buffer, "%.1f\n", partial_result);
-        write_rp_files("rp_max.txt", buffer);
+        write_file("rp_files/rp_max.txt", buffer);
     }
 
     // MINIMOS
     for ( iter = 0; iter < num_arrays; iter++){
         partial_result = data_arrays[iter][0];
         sprintf(buffer, "%.1f\n", partial_result);
-        write_rp_files("rp_min.txt", buffer);
+        write_file("rp_files/rp_min.txt", buffer);
     }
 
 }

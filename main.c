@@ -25,9 +25,6 @@ int main(int argc, char **argv)
 
     while((option = getopt(argc, argv, "i:c:d"))!= -1){
         switch (option) {
-            case 'd':
-                dflag = 1;
-                break;
             
             case 'i':
                 inputdatafile = optarg;
@@ -37,6 +34,9 @@ int main(int argc, char **argv)
                 lines = atoi(optarg);
                 break;
 
+            case 'd':
+                dflag = 1;
+                break;
             default:
                 print_usage();
                 exit(EXIT_FAILURE);
@@ -44,6 +44,11 @@ int main(int argc, char **argv)
     }
 
     metricas(inputdatafile, lines);
+    coordinador();
+
+    if (dflag == 1)
+        print_results();
+
 
     return 0;
 }

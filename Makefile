@@ -16,4 +16,4 @@ coordinador: coordinador.c coordinador.h
 metricas: metricas.c metricas.h
 
 clean:
-	rm -f $(OBJFILES) $(TARGET) $(OUTPUTFILES)
+	rm -f $(OBJFILES) $(TARGET) rp_files/$(OUTPUTFILES)
