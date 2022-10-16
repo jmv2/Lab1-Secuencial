@@ -5,8 +5,6 @@
 
 # define NUM_ARRAYS 8
 
-const int num_arrays = 8;
-
 float * array_c1;
 float * array_c2;
 float * array_c3;
