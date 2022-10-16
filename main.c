@@ -20,12 +20,12 @@ int main(int argc, char **argv)
     
     int option;
     int dflag = 0;
-    int lines;
-    char * inputdatafile;
+    int lines = 0;
+    char * inputdatafile = NULL;
 
     while((option = getopt(argc, argv, "i:c:d"))!= -1){
-        switch (option) {
-            
+        switch (option) 
+        {      
             case 'i':
                 inputdatafile = optarg;
                 break;
@@ -37,6 +37,7 @@ int main(int argc, char **argv)
             case 'd':
                 dflag = 1;
                 break;
+            
             default:
                 print_usage();
                 exit(EXIT_FAILURE);
