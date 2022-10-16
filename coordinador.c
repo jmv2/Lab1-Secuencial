@@ -8,7 +8,11 @@
 # define COLUMN_NUMBER 8
 # define FINAL_FILE "rc_metricas.txt"
 
-void print_results(){
+/* 
+    Lee e imprime en pantalla los resultados.
+ */
+void print_results()
+{
     FILE * finalFile = fopen(FINAL_FILE, "r");
     char line[MAX_STRING_SIZE];
 
@@ -17,12 +21,17 @@ void print_results(){
          fgets(line, MAX_STRING_SIZE, finalFile);
          printf("%s", line);
     }
-    
 
     fclose(finalFile);
 }
 
-void update_file(char * inputFile, char * titleText) {
+/* 
+    Función que realiza la lectura de los archivos con las métricas calculadas y luego, 
+    las escribe en el archivo de
+    resultados finales.
+ */
+void update_file(char * inputFile, char * titleText) 
+{
 
     FILE * readFile = fopen(inputFile, "r");
     FILE * writeFile = fopen(FINAL_FILE, "a");
@@ -30,7 +39,8 @@ void update_file(char * inputFile, char * titleText) {
 
     fputs(titleText, writeFile);
 
-    for (int iter = 0; iter < COLUMN_NUMBER; iter++){
+    for (int iter = 0; iter < COLUMN_NUMBER; iter++)
+    {
         fgets(dstLine, MAX_STRING_SIZE, readFile);
         dstLine[strcspn(dstLine, "\r\n")] = 0;
         strcat(dstLine, " ");
@@ -42,9 +52,15 @@ void update_file(char * inputFile, char * titleText) {
 
 }
 
-void coordinador(){
-
-    char fileNames[NUMBER_OF_STRING][MAX_STRING_SIZE] = {
+/* 
+    Función que coordina la lectura de los archivos con resultados
+    parciales (rp_*.txt) y qué luego escribe el archivo con los 
+    resultados finales.
+ */
+void coordinador()
+{
+    char fileNames[NUMBER_OF_STRING][MAX_STRING_SIZE] = 
+    {
         "rp_files/rp_mean.txt",
         "rp_files/rp_sd.txt",
         "rp_files/rp_mode.txt",
@@ -52,8 +68,8 @@ void coordinador(){
         "rp_files/rp_min.txt"
     };
 
-    for (int iter = 0; iter < NUMBER_OF_STRING; iter++){
-
+    for (int iter = 0; iter < NUMBER_OF_STRING; iter++)
+    {
         if(iter == 0)
             update_file(fileNames[iter], "Resultados finales:\nMedias: ");
         

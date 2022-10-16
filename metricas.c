@@ -3,6 +3,8 @@
 # include <stdlib.h>
 # include <math.h>
 
+# define NUM_ARRAYS 8
+
 const int num_arrays = 8;
 
 float * array_c1;
@@ -15,13 +17,17 @@ float * array_c7;
 float * array_c8;
 
 // función para usar con qsort
-float cmpfunc (const void * a, const void * b) {
+float cmpfunc (const void * a, const void * b)
+{
    return ( *(float*)a - *(float*)b );
 }
 
-void loadFile(char* inputdatafile, int lines){
-    
-    
+/*
+Función que lee linea a linea y carga en los arreglos c1...c8, que representan a las columnas del archivo.
+ */
+
+void loadFile(char* inputdatafile, int lines)
+{    
     FILE * file = fopen(inputdatafile, "r");
     char dstLine[100];
     int len = 100;
@@ -31,10 +37,14 @@ void loadFile(char* inputdatafile, int lines){
     char * token;
     char * aux;
 
-    if (!file){
+    if (!file)
+    {
         printf("error al abrir archivo.\n");
-    }else{
-        while (!feof(file) && counter <= lines){
+    }
+    else
+    {
+        while (!feof(file) && counter <= lines)
+        {
             counter++;
 
             fgets(dstLine, len, file);
@@ -92,21 +102,27 @@ void loadFile(char* inputdatafile, int lines){
     fclose(file);
 }
 
-//Función para calcular la moda de una lista dada
+/* 
+    Función para calcular la moda de una lista dada
+ */
 
-float mode(float data[], int len) {
+float mode(float data[], int len) 
+{
    float maxValue = 0, maxCount = 0;
    int i, j;
 
-   for (i = 1; i <= len; i++) {
+   for (i = 1; i <= len; i++) 
+   {
       int count = 0;
 
-      for (j = 1; j <= len; j++) {
+      for (j = 1; j <= len; j++) 
+      {
          if (data[j] == data[i])
             count++;
       }
       
-      if (count > maxCount) {
+      if (count > maxCount) 
+      {
          maxCount = count;
          maxValue = data[i];
       }
@@ -115,7 +131,12 @@ float mode(float data[], int len) {
    return maxValue;
 }
 
-float mean(float data[], int len){
+/* 
+    Función que calcula la media, recibe un arreglo con los datos y la cantidad registros a procesar 
+*/
+
+float mean(float data[], int len)
+{
     int i;
     float sum = 0.0;
 
@@ -127,41 +148,65 @@ float mean(float data[], int len){
     return sum/len;
 }
 
-void order_array(float data[], int len){
-    qsort(data,len,sizeof(float), cmpfunc);
+/* 
+    Función que ordena de menor a mayor un arreglo dado 
+*/
 
+void order_array(float data[], int len)
+{
+    qsort(data,len,sizeof(float), cmpfunc);
 }
 
-float standard_deviation(float data[], int len) {
+/* 
+    Función que calcula la desviación estándar dado un arreglo y la cantidad de registros a procesar
+    retorna la desviación estándar como número flotante 
+*/
+
+float standard_deviation(float data[], int len) 
+{
     float sum = 0.0, mean, SD = 0.0;
     int i;
-    for (i = 1; i < len; i++) {
+
+    for (i = 1; i < len; i++) 
+    {
         sum += data[i];
     }
     mean = sum / len;
-    for (i = 1; i < len; i++) {
+    for (i = 1; i < len; i++) 
+    {
         SD += pow(data[i] - mean, 2);
     }
+
     return sqrt(SD / len);
 }
 
-void write_file(char * filename, char * data){
-    
+/* 
+función que se encarga de escribir los diferentes archivos parciales
+los cuales son enviados a través de la variable filename
+la variable data tiene los datos que serán escritos en el archivo
+ */
+
+void write_file(char * filename, char * data)
+{
     FILE * file = fopen(filename, "a");
-
     fputs(data, file);
-
     fclose(file);
 }
 
-void metricas(char * inputdatafile,  int len){
+/* 
+    Función coordinadora de metricas, 
+    recibe el archivo csv y la cantidad de líneas que serán procesadas.
+ */
+
+void metricas(char * inputdatafile,  int len)
+{
     
     int iter;
     char buffer[20];
     float partial_result;
 
-    float * data_arrays[num_arrays] = {
-        
+    float * data_arrays[NUM_ARRAYS] = 
+    {    
         array_c1 = (float*)malloc(sizeof(float)*len),
         array_c2 = (float*)malloc(sizeof(float)*len),
         array_c3 = (float*)malloc(sizeof(float)*len),
@@ -175,14 +220,16 @@ void metricas(char * inputdatafile,  int len){
     loadFile(inputdatafile, len);
 
     // MEDIA
-    for ( iter = 0; iter < num_arrays; iter++){
+    for ( iter = 0; iter < NUM_ARRAYS; iter++)
+    {
         partial_result = mean(data_arrays[iter], len);
         sprintf(buffer, "%.1f\n", partial_result);
         write_file("rp_files/rp_mean.txt", buffer);
     }
 
     // MODA
-    for ( iter = 0; iter < num_arrays; iter++){
+    for ( iter = 0; iter < NUM_ARRAYS; iter++)
+    {
         partial_result = mode(data_arrays[iter], len);
         sprintf(buffer, "%.1f\n", partial_result);
         write_file("rp_files/rp_mode.txt", buffer);
@@ -190,14 +237,16 @@ void metricas(char * inputdatafile,  int len){
 
 
     // DESVIACION ESTANDAR
-    for ( iter = 0; iter < num_arrays; iter++){
+    for ( iter = 0; iter < NUM_ARRAYS; iter++)
+    {
         partial_result = standard_deviation(data_arrays[iter], len);
         sprintf(buffer, "%.1f\n", partial_result);
         write_file("rp_files/rp_sd.txt", buffer);
     }
     
     // MAXIMOS
-    for ( iter = 0; iter < num_arrays; iter++){
+    for ( iter = 0; iter < NUM_ARRAYS; iter++)
+    {
         order_array(data_arrays[iter], len);
         partial_result = data_arrays[iter][len];
         sprintf(buffer, "%.1f\n", partial_result);
@@ -205,7 +254,8 @@ void metricas(char * inputdatafile,  int len){
     }
 
     // MINIMOS
-    for ( iter = 0; iter < num_arrays; iter++){
+    for ( iter = 0; iter < NUM_ARRAYS; iter++)
+    {
         partial_result = data_arrays[iter][0];
         sprintf(buffer, "%.1f\n", partial_result);
         write_file("rp_files/rp_min.txt", buffer);

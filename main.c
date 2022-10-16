@@ -1,12 +1,16 @@
-#include<ctype.h>
-#include<stdio.h>
-#include<stdlib.h>
-#include <unistd.h>
+# include<ctype.h>
+# include<stdio.h>
+# include<stdlib.h>
+# include <unistd.h>
 
-#include "coordinador.h"
-#include "metricas.h"
+# include "coordinador.h"
+# include "metricas.h"
 
-void print_usage(){
+/* 
+    Función que imprime la ayuda para usar el programa.
+ */
+void print_usage()
+{
     printf("Error al ejecutar programa, faltan las opciones\n");
     printf("-i: nombre de archivo de entrada\n");
     printf("-c: cantidad de lineas de archivo de entrada.\n");
@@ -23,7 +27,8 @@ int main(int argc, char **argv)
     int lines = 0;
     char * inputdatafile = NULL;
 
-    while((option = getopt(argc, argv, "i:c:d"))!= -1){
+    while((option = getopt(argc, argv, "i:c:d"))!= -1)
+    {
         switch (option) 
         {      
             case 'i':
@@ -47,6 +52,7 @@ int main(int argc, char **argv)
     metricas(inputdatafile, lines);
     coordinador();
 
+    // si el flag es 1, se imprime en pantalla el resultado
     if (dflag == 1)
         print_results();
 
