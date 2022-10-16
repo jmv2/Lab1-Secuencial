@@ -1,6 +1,6 @@
 # Lab1-Secuencial
 
-## Instrucciones para la comppilación
+## Instrucciones para la compilación
 
 * make clean
 * make
